@@ -1,6 +1,8 @@
 package WebService.Controller;
 
 
+import WebService.Model.UserDetailsRequestModel;
+import WebService.Model.UserRest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,8 +18,9 @@ public class UserController {
 
 
     @PostMapping
-    public String createUser(){
-        return "CREATE USER CALLED";
+    public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails)
+    {
+        return new UserRest();
     }
 
     @PutMapping

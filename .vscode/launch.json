@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Executable",
+            "request": "launch",
+            "mainClass": "WebService.Executable",
+            "projectName": "WebService"
+        }
+    ]
+}
