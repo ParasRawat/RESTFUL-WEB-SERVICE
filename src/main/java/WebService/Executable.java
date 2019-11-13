@@ -1,6 +1,7 @@
 package WebService;
 
 
+import WebService.Security.AppProperties;
 import WebService.SpringApplicationContext.SpringApplicationContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,5 +23,11 @@ public class Executable {
     @Bean
     public SpringApplicationContext springApplicationContext(){
         return new SpringApplicationContext();
+    }
+
+    @Bean("AppProperties")
+    public AppProperties getAppProperties(){
+        return  new AppProperties();
+
     }
 }

@@ -43,7 +43,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
             //LETS SEE WHAT IS THE TOKEN VALUE
             token=token.replace(SecurityConstants.TOKEN_PREFIX,"");
             String user= Jwts.parser()
-                    .setSigningKey(SecurityConstants.TOKEN_SECRET)
+                    .setSigningKey(SecurityConstants.getTokenSecret())
                     .parseClaimsJws(token)
                     .getBody()
                     .getSubject();
