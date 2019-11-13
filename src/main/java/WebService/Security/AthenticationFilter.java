@@ -1,6 +1,9 @@
 package WebService.Security;
 
 import WebService.Model.UserLoginRequestModel;
+import WebService.Service.UserService;
+import WebService.Shared.dto.UserDto;
+import WebService.SpringApplicationContext.SpringApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -37,11 +40,15 @@ public class AthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis()+SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512,SecurityConstants.TOKEN_SECRET)
                 .compact();
-
+        UserService userService=(UserService) SpringApplicationContext.getBean("userServiceImplmentation");
+        UserDto userDto=userService.getUser(username);
         response.addHeader(SecurityConstants.HEADER_STRING,SecurityConstants.TOKEN_PREFIX+token);
+        response.addHeader("UserID",userDto.getUserId());
+
 
     }
 
+    // TRIGGERED ON ATTEMPTED AUTHENTICATION
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try{

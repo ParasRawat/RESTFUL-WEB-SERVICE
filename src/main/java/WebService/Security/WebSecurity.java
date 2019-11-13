@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
 
 @EnableWebSecurity
@@ -26,11 +27,20 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
      http.csrf().disable().authorizeRequests()
              .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
              .permitAll().anyRequest()
-             .authenticated().and().addFilter(new AthenticationFilter(authenticationManager()));
+             .authenticated().and().addFilter(getAuthentication())
+             .addFilter(new AuthorizationFilter(authenticationManager()));
+
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
+
+    private AthenticationFilter getAuthentication() throws Exception{
+        final AthenticationFilter athenticationFilter=new AthenticationFilter(authenticationManager());
+        athenticationFilter.setFilterProcessesUrl("/users/login");
+        return athenticationFilter;
+    }
+
 }

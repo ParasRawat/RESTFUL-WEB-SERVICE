@@ -16,7 +16,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    @RequestMapping(method = RequestMethod.GET)
+
+    @GetMapping
     public String getUser(){
 
     return "Get User Methode was called";
