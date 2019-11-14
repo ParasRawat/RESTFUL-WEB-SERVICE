@@ -49,6 +49,7 @@ public class AthenticationFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     // TRIGGERED ON ATTEMPTED AUTHENTICATION
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try{
@@ -65,9 +66,5 @@ public class AthenticationFilter extends UsernamePasswordAuthenticationFilter {
         throw new RuntimeException(e);
         }
 
-
-
     }
-
-
 }

@@ -8,6 +8,7 @@ import WebService.Shared.dto.UserDto;
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,10 +18,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public String getUser(){
+    @GetMapping(path = "/{id}")
+    public UserRest getUser(@PathVariable  String id){
+        UserRest userRest=new UserRest();
+        UserDto userDto=userService.getUserByUserId(id);
+        BeanUtils.copyProperties(userDto,userRest);
 
-    return "Get User Methode was called";
+    return userRest;
 }
 
 
