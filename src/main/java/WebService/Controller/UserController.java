@@ -1,6 +1,8 @@
 package WebService.Controller;
 
 
+import WebService.Exceptions.UserServiceException;
+import WebService.Model.ErrorMessages;
 import WebService.Model.UserDetailsRequestModel;
 import WebService.Model.UserRest;
 import WebService.Service.UserService;
@@ -36,9 +38,13 @@ public class UserController {
     @PostMapping(
             consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails)
+    public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception
     {
+        //IF THE METHODE CONTAINS THROWS KEYWORD THEN YOU CAN THROW ANY EXCEPTION AT ANY LINE WITHOUT THE TRY CATCH BLOCK
         UserRest userRest=new UserRest();
+
+        //WE CAN NOW DO ANYTHING THAT WE WANT IN THE USERSERVICEEXCREPTIONCLASS LIKE CALLING A METHODE TO DISPLAY A WARNING
+        if(userDetails.getFirstName().isEmpty()) throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
         UserDto userDto=new UserDto();
         BeanUtils.copyProperties(userDetails,userDto);
 
