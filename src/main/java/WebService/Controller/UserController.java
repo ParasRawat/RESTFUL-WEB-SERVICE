@@ -9,7 +9,11 @@ import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.print.attribute.standard.Media;
+import java.awt.*;
 
 @RestController
 @RequestMapping(value = "users")// http"//localhost:8080/users/
@@ -18,7 +22,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserRest getUser(@PathVariable  String id){
         UserRest userRest=new UserRest();
         UserDto userDto=userService.getUserByUserId(id);
@@ -27,8 +31,11 @@ public class UserController {
     return userRest;
 }
 
-
-    @PostMapping
+//CONSUMING INFORMATION IN BOTH XML FORMAT AND THE JSON FORMAT
+//PRODUCES INFORMATION IN BOTH XML AND THE JSON FORMAT
+    @PostMapping(
+            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails)
     {
         UserRest userRest=new UserRest();
