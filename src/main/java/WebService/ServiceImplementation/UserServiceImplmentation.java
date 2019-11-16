@@ -1,6 +1,9 @@
 package WebService.ServiceImplementation;
 
 import WebService.Entity.UserEntity;
+import WebService.Exceptions.UserServiceException;
+import WebService.Model.ErrorMessageModel;
+import WebService.Model.ErrorMessages;
 import WebService.RepositoryInterfaces.UserRepository;
 import WebService.Service.UserService;
 import WebService.Shared.dto.UserDto;
@@ -65,6 +68,21 @@ public class UserServiceImplmentation implements UserService {
         UserEntity userEntity = userRepository.findByUserId(id);
         if (userEntity == null) throw new UsernameNotFoundException(id);
         BeanUtils.copyProperties(userEntity, returedValue);
+        return returedValue;
+    }
+
+    @Override
+    public UserDto updateUser(String id, UserDto user) {
+        UserDto returedValue = new UserDto();
+
+        UserEntity userEntity = userRepository.findByUserId(id);
+        if (userEntity == null) throw new UserServiceException(ErrorMessages.COULD_NOT_UPDATE_THE_RECORD.getErrorMessage());
+
+
+        userEntity.setFirstName(user.getFirstName());
+        userEntity.setLastName(user.getLastName());
+        UserEntity updateduserDetail=userRepository.save(userEntity);
+        BeanUtils.copyProperties(updateduserDetail,returedValue);
         return returedValue;
     }
 
