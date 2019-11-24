@@ -10,6 +10,10 @@ import WebService.Shared.dto.UserDto;
 import WebService.Shared.dto.Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImplmentation implements UserService {
@@ -92,6 +97,22 @@ public class UserServiceImplmentation implements UserService {
         if (userEntity == null) throw new UserServiceException(ErrorMessages.COULD_NOT_UPDATE_THE_RECORD.getErrorMessage());
         userRepository.delete(userEntity);
 
+    }
+
+    @Override
+    public List<UserDto> getUsers(int page, int limit) {
+        List<UserDto> returnValue=new ArrayList<>();
+        Pageable pageable= PageRequest.of(page,limit);
+        Page<UserEntity> userPage=userRepository.findAll(pageable);
+        List<UserEntity> userEntities=userPage.getContent();
+
+        for(UserEntity userEntity:userEntities){
+            UserDto userDto=new UserDto();
+            BeanUtils.copyProperties(userEntity,userDto);
+            returnValue.add(userDto);
+        }
+
+        return returnValue;
     }
 
     @Override

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "users")// http"//localhost:8080/users/
@@ -80,6 +82,23 @@ public class UserController {
 
 
         return operationStatusModel;
+    }
+
+    //PASSING PARAMETER AS A QUERY STRING NOT AS A PATH PARAMETER
+    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public List<UserRest> getUers(@RequestParam(value = "page",defaultValue ="0") int page,@RequestParam(value = "limit",defaultValue = "25") int limit){
+
+         List<UserRest> returnValue=new ArrayList<>();
+
+         List<UserDto> userDtos=userService.getUsers(page,limit);
+
+         for(UserDto user:userDtos){
+             UserRest userRest=new UserRest();
+             BeanUtils.copyProperties(user,userRest);
+             returnValue.add(userRest);
+         }
+
+         return returnValue;
     }
 
 }
