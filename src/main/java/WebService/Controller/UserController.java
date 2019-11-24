@@ -2,9 +2,7 @@ package WebService.Controller;
 
 
 import WebService.Exceptions.UserServiceException;
-import WebService.Model.ErrorMessages;
-import WebService.Model.UserDetailsRequestModel;
-import WebService.Model.UserRest;
+import WebService.Model.*;
 import WebService.Service.UserService;
 import WebService.Shared.dto.UserDto;
 import com.fasterxml.jackson.databind.util.BeanUtil;
@@ -69,9 +67,19 @@ public class UserController {
         return  userRest;
     }
 
-    @DeleteMapping
-    public String DeleteUser(){
-        return "DELETE USER WAS CALLED";
+    @DeleteMapping(
+            path = {"/{id}"},
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public OperationStatusModel DeleteUser(@PathVariable String id){
+        OperationStatusModel operationStatusModel=new OperationStatusModel();
+        operationStatusModel.setOperationName(RequestOperationName.DELETE.name());
+
+        userService.deleteUser(id);
+
+        operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
+
+
+        return operationStatusModel;
     }
 
 }

@@ -87,6 +87,14 @@ public class UserServiceImplmentation implements UserService {
     }
 
     @Override
+    public void deleteUser(String id) {
+        UserEntity userEntity = userRepository.findByUserId(id);
+        if (userEntity == null) throw new UserServiceException(ErrorMessages.COULD_NOT_UPDATE_THE_RECORD.getErrorMessage());
+        userRepository.delete(userEntity);
+
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         UserEntity entity = userRepository.findByEmail(email);
