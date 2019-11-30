@@ -6,8 +6,10 @@ import WebService.Model.ErrorMessageModel;
 import WebService.Model.ErrorMessages;
 import WebService.RepositoryInterfaces.UserRepository;
 import WebService.Service.UserService;
+import WebService.Shared.dto.AddressDTO;
 import WebService.Shared.dto.UserDto;
 import WebService.Shared.dto.Utils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,19 +40,28 @@ public class UserServiceImplmentation implements UserService {
         UserEntity storedUserDetails = userRepository.findByEmail(userDto.getEmail());
         if (storedUserDetails != null) throw new RuntimeException("RECORED ALREADY EXIST PLEASE TRYA NEW ONE ");
 
-        UserEntity userEntity = new UserEntity();
-        BeanUtils.copyProperties(userDto, userEntity);
+        for(int i=0;i<userDto.getAddresses().size();i++){
+
+            AddressDTO address=userDto.getAddresses().get(i);
+
+            address.setUserDetails(userDto);
+            address.setAddressId(utils.generatedAddressId(30));
+            userDto.getAddresses().set(i,address);
+        }
+
+        //BeanUtils.copyProperties(userDto, userEntity);
+        ModelMapper modelMapper=new ModelMapper();
+        UserEntity userEntity=modelMapper.map(userDto,UserEntity.class);
 
         String publicuserId = utils.generatedUserId(30);
-
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userEntity.setUserId(publicuserId);
 
         UserEntity storedDetails = userRepository.save(userEntity);
 
-        UserDto returnedValue = new UserDto();
-        BeanUtils.copyProperties(storedDetails, returnedValue);
 
+       // BeanUtils.copyProperties(storedDetails, returnedValue);
+        UserDto returnedValue = modelMapper.map(storedDetails,UserDto.class);
         return returnedValue;
     }
 

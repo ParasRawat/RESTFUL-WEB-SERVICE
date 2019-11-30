@@ -1,14 +1,36 @@
-package WebService.Shared.dto;
+package WebService.Entity;
 
-public class AddressDTO {
+import WebService.Shared.dto.UserDto;
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity(name="addresses")
+public class AddressEntity implements Serializable {
+
+    public static final long serialVersionUID=47229292328328392l;
+    @Id
+    @GeneratedValue
     private long id;
+
+    @Column(length = 30, nullable = false)
     private String addressId;
+    @Column(length = 10, nullable = false)
     private String city;
+    @Column(length = 30, nullable = false)
     private String country;
+    @Column(length = 100, nullable = false)
     private String streetName;
+    @Column(length = 7, nullable = false)
     private String postalCode;
+    @Column(length = 10, nullable = false)
     private String type;
-    private UserDto userDetails;
+
+    //SPECIFY THE RELATIONSHIP
+    //MANYTOONE
+    @ManyToOne
+    @JoinColumn(name="users_id")
+    private UserEntity userDetails;
 
     public long getId() {
         return id;
@@ -16,6 +38,14 @@ public class AddressDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 
     public String getCity() {
@@ -58,19 +88,11 @@ public class AddressDTO {
         this.type = type;
     }
 
-    public UserDto getUserDetails() {
+    public UserEntity getUserDetails() {
         return userDetails;
     }
 
-    public void setUserDetails(UserDto userDetails) {
+    public void setUserDetails(UserEntity userDetails) {
         this.userDetails = userDetails;
-    }
-
-    public String getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(String addressId) {
-        this.addressId = addressId;
     }
 }

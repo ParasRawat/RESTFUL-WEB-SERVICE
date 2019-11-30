@@ -1,6 +1,5 @@
 package WebService.Controller;
 
-
 import WebService.Exceptions.UserServiceException;
 import WebService.Model.*;
 import WebService.Service.UserService;
@@ -50,7 +49,8 @@ public class UserController {
         UserDto userDto=modelMapper.map(userDetails,UserDto.class);
 
         UserDto createdUser = userService.createUser(userDto);
-        BeanUtils.copyProperties(createdUser, userRest);
+        ModelMapper modelMapper1=new ModelMapper();
+        userRest=modelMapper1.map(createdUser,UserRest.class);
         return userRest;
     }
 
