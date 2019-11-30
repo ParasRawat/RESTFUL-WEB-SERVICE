@@ -6,11 +6,13 @@ F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\ErrorMessageModel
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\RequestOperationStatus.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Greeting.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Security\SecurityConstants.java
+F:\Eclipse Workspace\WebService\src\main\java\WebService\Shared\dto\AddressDTO.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\WebService.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\ErrorMessages.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Security\AppProperties.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\RepositoryInterfaces\UserRepository.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Security\AuthorizationFilter.java
+F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\AddressRequestModel.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Security\AthenticationFilter.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\OperationStatusModel.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\SpringApplicationContext\SpringApplicationContext.java

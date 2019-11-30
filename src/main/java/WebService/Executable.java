@@ -11,20 +11,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class Executable extends SpringBootServletInitializer {
+public class Executable {
 
     public static void main(String []args){
 
         SpringApplication.run(Executable.class,args);
     }
 
-
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(Executable.class);
-
-    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
