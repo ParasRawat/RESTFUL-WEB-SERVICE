@@ -2,10 +2,13 @@ package WebService.Controller;
 
 import WebService.Exceptions.UserServiceException;
 import WebService.Model.*;
+import WebService.Service.AddressesService;
 import WebService.Service.UserService;
+import WebService.Shared.dto.AddressDTO;
 import WebService.Shared.dto.UserDto;
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
 import java.awt.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +27,15 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    AddressesService addressesService;
 
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserRest getUser(@PathVariable String id) {
         UserRest userRest = new UserRest();
         UserDto userDto = userService.getUserByUserId(id);
-        BeanUtils.copyProperties(userDto, userRest);
-
+        ModelMapper modelMapper=new ModelMapper();
+        userRest=modelMapper.map(userDto,UserRest.class);
         return userRest;
     }
 
@@ -101,6 +107,25 @@ public class UserController {
 
         return returnValue;
     }
+
+    //http:localhost:8080/WebService/users/id/addresses
+    @GetMapping(path = "/{id}/addresses", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public List<AddressRest> getUserAddresses(@PathVariable String id){
+
+        List<AddressRest>addressRests=new ArrayList<>();
+
+        List<AddressDTO> addressDTOS=addressesService.getAddresses(id);
+        ModelMapper modelMapper=new ModelMapper();
+        Type listType=new TypeToken<List<AddressRest>>(){}.getType();
+
+        addressRests=modelMapper.map(addressDTOS,listType);
+
+        return addressRests;
+    }
+
+
+
+
 
     //TASK UPDATE
     //SETTING UP EC2 INSTANCE

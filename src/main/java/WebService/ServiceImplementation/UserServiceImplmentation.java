@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,9 @@ public class UserServiceImplmentation implements UserService {
 
         UserEntity userEntity = userRepository.findByUserId(id);
         if (userEntity == null) throw new UsernameNotFoundException(id);
-        BeanUtils.copyProperties(userEntity, returedValue);
+        ModelMapper modelMapper=new ModelMapper();
+        returedValue=modelMapper.map(userEntity,UserDto.class);
+
         return returedValue;
     }
 
