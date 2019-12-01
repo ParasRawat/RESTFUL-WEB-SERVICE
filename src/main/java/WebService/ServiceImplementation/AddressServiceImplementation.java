@@ -7,6 +7,7 @@ import WebService.RepositoryInterfaces.AddressRepository;
 import WebService.RepositoryInterfaces.UserRepository;
 import WebService.Service.AddressesService;
 import WebService.Shared.dto.AddressDTO;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,5 +41,13 @@ public class AddressServiceImplementation implements AddressesService {
 
 
         return returnValue;
+    }
+
+    @Override
+    public AddressDTO getAddress(String addressId) {
+        AddressEntity addressEntity=addressRepository.findByAddressId(addressId);
+
+        AddressDTO addressDTO=new ModelMapper().map(addressEntity,AddressDTO.class);
+        return addressDTO;
     }
 }

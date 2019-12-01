@@ -7,4 +7,5 @@ import java.util.List;
 public interface AddressesService {
     List<AddressDTO>  getAddresses(String id);
 
+    AddressDTO getAddress(String addressId);
 }

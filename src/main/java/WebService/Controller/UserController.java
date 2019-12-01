@@ -30,6 +30,8 @@ public class UserController {
     @Autowired
     AddressesService addressesService;
 
+
+
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserRest getUser(@PathVariable String id) {
         UserRest userRest = new UserRest();
@@ -124,8 +126,18 @@ public class UserController {
     }
 
 
+    @GetMapping(path = "/{id}/addresses/{addressId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public AddressRest getUserAddress(@PathVariable String addressId){
 
+        AddressDTO addressDTO=addressesService.getAddress(addressId);
 
+        ModelMapper modelMapper=new ModelMapper();
+
+        AddressRest addressRest=modelMapper.map(addressDTO,AddressRest.class);
+
+        return addressRest;
+
+    }
 
     //TASK UPDATE
     //SETTING UP EC2 INSTANCE
