@@ -13,6 +13,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -117,10 +119,10 @@ public class UserController {
     }
 
     //http:localhost:8080/WebService/users/id/addresses
-    @GetMapping(path = "/{id}/addresses", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(path = "/{id}/addresses", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE,"application/hal+json"})
     public List<AddressRest> getUserAddresses(@PathVariable String id){
 
-        List<AddressRest>addressRests=new ArrayList<>();
+        List<AddressRest>addressRests;
 
         List<AddressDTO> addressDTOS=addressesService.getAddresses(id);
         ModelMapper modelMapper=new ModelMapper();
@@ -128,11 +130,21 @@ public class UserController {
 
         addressRests=modelMapper.map(addressDTOS,listType);
 
+        for(AddressRest addressRest:addressRests){
+
+            Link addressLink=linkTo(methodOn(UserController.class).getUserAddress(id,addressRest.getAddressId())).withSelfRel();
+            addressRest.add(addressLink);
+
+            Link userLink=linkTo(UserController.class).slash(id).withRel("user");
+
+            addressRest.add(userLink);
+        }
+
         return addressRests;
     }
 
 
-    @GetMapping(path = "/{id}/addresses/{addressId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(path = "/{id}/addresses/{addressId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE,"application/hal+json"})
     public AddressRest getUserAddress(@PathVariable String addressId, @PathVariable String id){
 
         AddressDTO addressDTO=addressesService.getAddress(addressId);
