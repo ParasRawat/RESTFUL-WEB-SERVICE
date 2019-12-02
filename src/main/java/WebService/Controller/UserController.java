@@ -24,9 +24,11 @@ import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 
 @RestController
-@RequestMapping(value = "users")// http"//localhost:8080/users/
+@RequestMapping(value = "/users")// http"//localhost:8080/users/
 public class UserController {
 
     @Autowired
@@ -137,11 +139,11 @@ public class UserController {
 
         ModelMapper modelMapper=new ModelMapper();
 
-        Link addressLink=linkTo(UserController.class).slash(id).slash("addresses").slash(addressId).withSelfRel();
+        Link addressLink=linkTo(methodOn(UserController.class).getUserAddress(id,addressId)).withSelfRel();
 
         Link userLink=linkTo(UserController.class).slash(id).withRel("user");
 
-        Link addressesLink=linkTo(UserController.class).slash(id).slash("addresses").withRel("addresses");
+        Link addressesLink=linkTo(methodOn(UserController.class).getUserAddresses(id)).withRel("addresses");
 
 
         AddressRest addressRest=modelMapper.map(addressDTO,AddressRest.class);
