@@ -12,6 +12,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,9 @@ import java.awt.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 
 @RestController
 @RequestMapping(value = "users")// http"//localhost:8080/users/
@@ -127,13 +131,24 @@ public class UserController {
 
 
     @GetMapping(path = "/{id}/addresses/{addressId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public AddressRest getUserAddress(@PathVariable String addressId){
+    public AddressRest getUserAddress(@PathVariable String addressId, @PathVariable String id){
 
         AddressDTO addressDTO=addressesService.getAddress(addressId);
 
         ModelMapper modelMapper=new ModelMapper();
 
+        Link addressLink=linkTo(UserController.class).slash(id).slash("addresses").slash(addressId).withSelfRel();
+
+        Link userLink=linkTo(UserController.class).slash(id).withRel("user");
+
+        Link addressesLink=linkTo(UserController.class).slash(id).slash("addresses").withRel("addresses");
+
+
         AddressRest addressRest=modelMapper.map(addressDTO,AddressRest.class);
+        //because we are extending the resouce support
+        addressRest.add(addressLink);
+        addressRest.add(userLink);
+        addressRest.add(addressesLink);
 
         return addressRest;
 
