@@ -2,6 +2,7 @@ package WebService.Controller;
 
 import WebService.Exceptions.UserServiceException;
 import WebService.Model.*;
+import WebService.Security.SecurityConstants;
 import WebService.Service.AddressesService;
 import WebService.Service.UserService;
 import WebService.Shared.dto.AddressDTO;
@@ -167,6 +168,30 @@ public class UserController {
         return addressRest;
 
     }
+
+    @GetMapping(path = "/"+ SecurityConstants.Verification_Email_Url, produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public OperationStatusModel verifyEmailToken(@RequestParam(value = "token") String token){
+
+        OperationStatusModel returnValue=new OperationStatusModel();
+        returnValue.setOperationName(RequestOperationName.VERIFY_EMAIL.name());
+
+
+        boolean isVerified=userService.verifyEmailToken(token);
+
+        if(isVerified){
+
+            returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+
+        }
+        else{
+            returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+        }
+
+        return returnValue;
+
+
+    }
+
 
     //TASK UPDATE
     //SETTING UP EC2 INSTANCE

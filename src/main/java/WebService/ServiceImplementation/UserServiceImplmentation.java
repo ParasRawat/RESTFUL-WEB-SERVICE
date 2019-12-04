@@ -130,6 +130,28 @@ public class UserServiceImplmentation implements UserService {
     }
 
     @Override
+    public boolean verifyEmailToken(String token) {
+
+        boolean returnValue=false;
+
+        UserEntity userEntity=userRepository.findUserByEmailVerificationToken(token);
+
+        if(userEntity!=null){
+
+            boolean hasTokenExpired = Utils.hasTokenExpired(token);
+
+            if(!hasTokenExpired){
+
+                userEntity.setEmailVerificationToken(null);
+                userEntity.setEmailVerificationStatus(Boolean.TRUE);
+                userRepository.save(userEntity);
+                returnValue=true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         UserEntity entity = userRepository.findByEmail(email);
