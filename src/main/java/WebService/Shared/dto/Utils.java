@@ -3,6 +3,7 @@ package WebService.Shared.dto;
 import WebService.Security.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
@@ -16,7 +17,6 @@ public class Utils {
     private final String Alphabet="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     public static boolean hasTokenExpired(String token) {
-
 
         Claims claims= Jwts.parser()
                 .setSigningKey(SecurityConstants.getTokenSecret())
@@ -46,5 +46,19 @@ public class Utils {
         }
 
         return new String(returnvalue);
+    }
+
+    //GENERATING EMAIL VERIFICATION TOKEN
+    public String generateEmailVerificationToken(String publicuserId) {
+
+        String token=Jwts.builder()
+                .setSubject(publicuserId)
+                .setExpiration(new Date(System.currentTimeMillis()+SecurityConstants.EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512,SecurityConstants.getTokenSecret())
+                .compact();
+
+        return token;
+
+
     }
 }

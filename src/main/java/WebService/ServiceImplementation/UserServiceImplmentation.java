@@ -58,8 +58,10 @@ public class UserServiceImplmentation implements UserService {
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userEntity.setUserId(publicuserId);
 
+        //we need to generate the user email verification token
+        userEntity.setEmailVerificationToken(utils.generateEmailVerificationToken(publicuserId));
+        userEntity.setEmailVerificationStatus(Boolean.FALSE);
         UserEntity storedDetails = userRepository.save(userEntity);
-
 
        // BeanUtils.copyProperties(storedDetails, returnedValue);
         UserDto returnedValue = modelMapper.map(storedDetails,UserDto.class);
@@ -157,7 +159,15 @@ public class UserServiceImplmentation implements UserService {
         UserEntity entity = userRepository.findByEmail(email);
         if (entity == null) throw new UsernameNotFoundException(email);
 
-        return new User(entity.getEmail(), entity.getEncryptedPassword(), new ArrayList<>());
+        //User(String username, String password, boolean enabled,
+        // boolean accountNonExpired, boolean credentialsNonExpired,
+        // boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities)
+        return new User(entity.getEmail(),entity.getEncryptedPassword()
+                ,entity.getEmailVerificationStatus()
+                ,true
+                ,true
+                ,true,
+                new ArrayList<>());
 
     }
 }
