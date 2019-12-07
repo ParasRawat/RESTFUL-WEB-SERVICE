@@ -1,4 +1,5 @@
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Controller\UserController.java
+F:\Eclipse Workspace\WebService\src\main\java\WebService\Entity\AddressEntity.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Security\WebSecurity.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\RequestOperationName.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Entity\UserEntity.java
@@ -19,11 +20,15 @@ F:\Eclipse Workspace\WebService\src\main\java\WebService\SpringApplicationContex
 F:\Eclipse Workspace\WebService\src\main\java\WebService\ServiceImplementation\UserServiceImplmentation.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Shared\dto\Utils.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\GreetingController.java
+F:\Eclipse Workspace\WebService\src\main\java\WebService\Service\AddressesService.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Shared\dto\UserDto.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Executable.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\UserDetailsRequestModel.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Service\UserService.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\UserLoginRequestModel.java
+F:\Eclipse Workspace\WebService\src\main\java\WebService\ServiceImplementation\AddressServiceImplementation.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Exceptions\UserServiceException.java
+F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\AddressRest.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Model\UserRest.java
+F:\Eclipse Workspace\WebService\src\main\java\WebService\RepositoryInterfaces\AddressRepository.java
 F:\Eclipse Workspace\WebService\src\main\java\WebService\Exceptions\AppExceptionHandler.java

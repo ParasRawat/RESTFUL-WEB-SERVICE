@@ -18,6 +18,11 @@ public class Executable {
         SpringApplication.run(Executable.class,args);
     }
 
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//        return builder.sources(Executable.class);
+//
+//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){

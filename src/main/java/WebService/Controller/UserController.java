@@ -7,20 +7,19 @@ import WebService.Service.AddressesService;
 import WebService.Service.UserService;
 import WebService.Shared.dto.AddressDTO;
 import WebService.Shared.dto.UserDto;
-import com.fasterxml.jackson.databind.util.BeanUtil;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
-import java.awt.*;
+
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -169,7 +168,7 @@ public class UserController {
 
     }
 
-    @GetMapping(path = "/"+ SecurityConstants.Verification_Email_Url, produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(path = "/email", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public OperationStatusModel verifyEmailToken(@RequestParam(value = "token") String token){
 
         OperationStatusModel returnValue=new OperationStatusModel();
@@ -182,13 +181,12 @@ public class UserController {
 
             returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
 
+            return returnValue;
         }
         else{
             returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+            return returnValue;
         }
-
-        return returnValue;
-
 
     }
 
@@ -208,6 +206,8 @@ public class UserController {
     //TASK UPDATE
     //CREATING A NEW WEB PROJECT
     //ADDING JQUERY TO EXTRACT OUR TOKEN PARAMETER FROM THE URL QUERY PARAMETERS
+
+
 
 
 

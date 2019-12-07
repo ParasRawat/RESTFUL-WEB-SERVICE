@@ -148,9 +148,10 @@ public class UserServiceImplmentation implements UserService {
                 userEntity.setEmailVerificationStatus(Boolean.TRUE);
                 userRepository.save(userEntity);
                 returnValue=true;
+                return returnValue;
             }
         }
-        return false;
+        return returnValue;
     }
 
     @Override
