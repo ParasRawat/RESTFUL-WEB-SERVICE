@@ -7,6 +7,7 @@ import WebService.Model.ErrorMessages;
 import WebService.RepositoryInterfaces.UserRepository;
 import WebService.Service.UserService;
 import WebService.Shared.dto.AddressDTO;
+import WebService.Shared.dto.AmazonSES;
 import WebService.Shared.dto.UserDto;
 import WebService.Shared.dto.Utils;
 import org.modelmapper.ModelMapper;
@@ -65,6 +66,9 @@ public class UserServiceImplmentation implements UserService {
 
        // BeanUtils.copyProperties(storedDetails, returnedValue);
         UserDto returnedValue = modelMapper.map(storedDetails,UserDto.class);
+
+        new AmazonSES().verifyEmail(userDto);
+
         return returnedValue;
     }
 
