@@ -20,7 +20,7 @@ public class AmazonSES {
 
     public final String TEXTBODY="Please verufy the email";
 
-    BasicAWSCredentials basicAWSCredentials=new BasicAWSCredentials("AKIATDXGK64NXSWRK2N7","pH6oXtt0xPifwjEaWaEIiNE+UpJbaPOIYu9V9o0J");
+    BasicAWSCredentials basicAWSCredentials=new BasicAWSCredentials("","g");
 
     public void verifyEmail(UserDto userDto){
 
