@@ -11,6 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
+import java.io.Serializable;
+
 
 @EnableWebSecurity
 
@@ -28,7 +30,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
      http.csrf().disable().authorizeRequests()
              .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
              .permitAll()
-             .antMatchers(HttpMethod.GET, "/users/email")
+             .antMatchers(HttpMethod.GET, SecurityConstants.Verification_Email_Url)
+             .permitAll()
+             .antMatchers(HttpMethod.POST, SecurityConstants.PasswordResetUrl)
              .permitAll()
              .anyRequest()
              .authenticated().and().addFilter(getAuthentication())

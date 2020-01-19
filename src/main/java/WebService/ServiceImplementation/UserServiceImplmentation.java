@@ -167,11 +167,11 @@ public class UserServiceImplmentation implements UserService {
 
     @Override
     public boolean requestPasswordReset(String email) {
-        boolean returnValue= false;
+        boolean returnValue= true;
         UserEntity entity=userRepository.findByEmail(email);
 
         if(entity==null){
-            return  returnValue;
+            return  false;
         }
 
         String token=Utils.generatePasswordRestToken(entity.getUserId());
