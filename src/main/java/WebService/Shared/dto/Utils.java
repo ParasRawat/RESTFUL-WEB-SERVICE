@@ -31,6 +31,16 @@ public class Utils {
 
     }
 
+    public static String generatePasswordRestToken(String userId) {
+        //GENERATING
+        String token=Jwts.builder()
+                .setSubject(userId)
+                .setExpiration(new Date(System.currentTimeMillis()+SecurityConstants.PASSWORD_RESET_EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512,SecurityConstants.getTokenSecret())
+                .compact();
+        return token;
+    }
+
     public String generatedUserId(int length){
         return generateRandomString(length);
     }
@@ -51,6 +61,7 @@ public class Utils {
     //GENERATING EMAIL VERIFICATION TOKEN
     public String generateEmailVerificationToken(String publicuserId) {
 
+        //token secret will remain with us
         String token=Jwts.builder()
                 .setSubject(publicuserId)
                 .setExpiration(new Date(System.currentTimeMillis()+SecurityConstants.EXPIRATION_TIME))

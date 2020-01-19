@@ -13,4 +13,6 @@ public interface UserService  extends UserDetailsService {
     void deleteUser(String id);
     List<UserDto> getUsers(int page, int limit);
     boolean verifyEmailToken(String token);
+
+    boolean requestPasswordReset(String email);
 }

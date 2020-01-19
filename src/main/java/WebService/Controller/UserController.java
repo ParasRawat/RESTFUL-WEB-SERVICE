@@ -56,7 +56,7 @@ public class UserController {
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
         //IF THE METHODE CONTAINS THROWS KEYWORD THEN YOU CAN THROW ANY EXCEPTION AT ANY LINE WITHOUT THE TRY CATCH BLOCK
-        UserRest userRest = new UserRest();
+        UserRest userRest;
         //WE CAN NOW DO ANYTHING THAT WE WANT IN THE USERSERVICEEXCREPTIONCLASS LIKE CALLING A METHODE TO DISPLAY A WARNING
         if (userDetails.getFirstName().isEmpty())
             throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
@@ -188,28 +188,33 @@ public class UserController {
             return returnValue;
         }
 
+
+
     }
 
+    // /mywebservice/users/password-reset-request
+    //proper format for returning a response in case of a proper request
+    @PostMapping(path = "/password-reset-request",
+            consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE}
+    )
+    public OperationStatusModel requestResest(@RequestBody PasswordResetRequestModel passwordResetRequestModel){
 
-    //TASK UPDATE
-    //SETTING UP EC2 INSTANCE
-    //INSTALLING TOMCAT ON THAT EC2INSTANCE
-    //INSTALLING MYSQL ON THAT INSTANCE
-    //CREATING THE DATABASE
-    //CREATING USER WITH ALL PRIVILEGES TO THAT DATABASE
+        OperationStatusModel operationStatusModel=new OperationStatusModel();
+
+        boolean operationResult= userService.requestPasswordReset(passwordResetRequestModel.getEmail());
+
+        operationStatusModel.setOperationName(RequestOperationName.REQUEST_PASSWORD_REST.name());
+        operationStatusModel.setOperationResult(RequestOperationStatus.ERROR.name());
+
+        if(operationResult){
+
+            operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        }
+        return operationStatusModel;
 
 
-    //TASK UPDATE
-    //DEPLOYING THE WEB SERVICE AT EC2 TOMCAT
-    //PERFOMING POST , GET REQUEST ON THE DAME
-
-    //TASK UPDATE
-    //CREATING A NEW WEB PROJECT
-    //ADDING JQUERY TO EXTRACT OUR TOKEN PARAMETER FROM THE URL QUERY PARAMETERS
-
-
-
-
+    }
 
 
 }
