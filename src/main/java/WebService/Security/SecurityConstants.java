@@ -11,6 +11,7 @@ public class SecurityConstants {
     public static final String SIGN_UP_URL="/users";
     public static final String Verification_Email_Url="/users/email";
     public static final String PasswordResetUrl="/users/password-reset-request";
+    public static final String PasswordReset="/users/password-reset";
 
 
 

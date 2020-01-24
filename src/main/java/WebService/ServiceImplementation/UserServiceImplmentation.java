@@ -3,9 +3,7 @@ package WebService.ServiceImplementation;
 import WebService.Entity.PasswordResetTokenEntity;
 import WebService.Entity.UserEntity;
 import WebService.Exceptions.UserServiceException;
-import WebService.Model.ErrorMessageModel;
 import WebService.Model.ErrorMessages;
-import WebService.Model.PasswordResetRequestModel;
 import WebService.RepositoryInterfaces.PasswordResetTokenRepository;
 import WebService.RepositoryInterfaces.UserRepository;
 import WebService.Service.UserService;
@@ -184,6 +182,34 @@ public class UserServiceImplmentation implements UserService {
         //send the email message from here
         
         return returnValue;
+    }
+
+    @Override
+    public boolean resetPassword(String token, String password) {
+        boolean returnValue= false;
+
+        if(Utils.hasTokenExpired(token)){
+            return returnValue;
+        }
+        PasswordResetTokenEntity passwordResetTokenEntity=passwordResetTokenRepository.findByToken(token);
+
+        if(passwordResetTokenEntity==null){
+            return returnValue;
+        }
+
+        String encodedPassword= bCryptPasswordEncoder.encode(password);
+        UserEntity userEntity=passwordResetTokenEntity.getUserDetails();
+        userEntity.setEncryptedPassword(encodedPassword);
+        UserEntity savedEnitity= userRepository.save(userEntity);
+
+        if(savedEnitity!=null && savedEnitity.getEncryptedPassword().equalsIgnoreCase(encodedPassword)){
+            returnValue=true;
+
+        }
+
+        passwordResetTokenRepository.delete(passwordResetTokenEntity);
+        return  returnValue;
+
     }
 
     @Override

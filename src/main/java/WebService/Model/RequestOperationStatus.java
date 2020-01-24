@@ -1,5 +1,9 @@
 package WebService.Model;
 
+import javax.tools.Tool;
+
 public enum RequestOperationStatus {
-    ERROR, SUCCESS
+    ERROR,
+    SUCCESS,
+    PASSWORD_RESET;
 }

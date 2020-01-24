@@ -7,7 +7,6 @@ import WebService.Service.AddressesService;
 import WebService.Service.UserService;
 import WebService.Shared.dto.AddressDTO;
 import WebService.Shared.dto.UserDto;
-
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
@@ -214,6 +213,22 @@ public class UserController {
         return operationStatusModel;
 
 
+    }
+
+    @PostMapping( path = "/password-reset",
+    consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+
+    public OperationStatusModel resetPassword(@RequestBody PasswordResetModel passwordResetModel){
+        OperationStatusModel returnValue=new OperationStatusModel();
+        boolean operationResult= userService.resetPassword(passwordResetModel.getToken(), passwordResetModel.getPassword());
+         returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+         returnValue.setOperationName(RequestOperationStatus.PASSWORD_RESET.name());
+
+         if(operationResult){
+             returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+         }
+         return returnValue;
     }
 
 
