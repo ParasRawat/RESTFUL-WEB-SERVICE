@@ -27,7 +27,7 @@ public class UserEntity implements Serializable {
     private String emailVerificationToken;
 
     @Column(nullable = false)
-    private Boolean emailVerificationStatus=false;
+    private boolean emailVerificationStatus=false;
 
 
     //CASCADING WILL PROVIDE TWO WAY DEPENDENCY
