@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -47,6 +48,23 @@ public class UserServiceImplTest {
         //part of the mockito framework
         assertNotNull(userDto);
         assertEquals("Sergey",userDto.getFirstName());
+
+    }
+
+    @Test
+    final void testGetUser_UsernameNotFoundException(){
+        //creating a mock of an object behaviour
+        when(userRepository.findByEmail( anyString() )).thenReturn(null);
+
+        //if this methode does not throw an exception of the expected type, then this methode will fail
+
+        //handling such exceptions in JUNIT 5
+        assertThrows(UsernameNotFoundException.class,
+                //peice of code that needs to be executed
+                () ->{
+                    userServiceImplmentation.getUser("deo");
+                }
+                );
 
     }
 
