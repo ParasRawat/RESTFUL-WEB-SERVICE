@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 public class UserServiceImplTest {
 
     //FOR STARTERS WE WILL CREATE MOCK OF THE CLASSES THAT WE WANT TO TEST
+    //UNIT TESTING THE GET USER METHODE
     @InjectMocks
     UserServiceImplmentation userServiceImplmentation;
     //kind of a fake class that we can instantiate
@@ -32,19 +33,20 @@ public class UserServiceImplTest {
 
     @Test
     final void testGetUser(){
-        //STUB IS A HARDCODED OBJECT FAKE OBJECT CONTAINING HARDCODED VALUE
+        //STUB IS A HARDCODED FAKE OBJECT CONTAINING HARDCODED VALUE TESTING PURPOSES
         UserEntity userEntity=new UserEntity();
         userEntity.setId(1L);
         userEntity.setFirstName("Sergey");
         userEntity.setUserId("uabsuabsains12131");
         userEntity.setEncryptedPassword("9u3923923u23");
 
+        //created a mock and stubbed it with a stub object
+        //part of
         when(userRepository.findByEmail( anyString() )).thenReturn(userEntity);
         UserDto userDto=userServiceImplmentation.getUser("test@Email.com");
-
+        //part of the mockito framework
         assertNotNull(userDto);
         assertEquals("Sergey",userDto.getFirstName());
-
 
     }
 
