@@ -131,6 +131,7 @@ public class UserServiceImplTest {
         verify(userRepository,times(1)).save(any(UserEntity.class));
     }
 
+    //PLATFORM CHANGE. HELLO FROM LINUX
 
     //***Note*** Unit test are easy and quick to execute because the java code does not communicate over the network, with any remote server or database***
     // ** when unit test connect to database, external api or a web service then it will take a bit longer for this unit test to complete and it won't be***
